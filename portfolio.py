@@ -2,6 +2,15 @@ import streamlit as st
 
 # 1. إعدادات الصفحة الأساسية
 st.set_page_config(page_title="معرض أعمالي", page_icon="🎨", layout="centered")
+# كود سحري لضبط اتجاه الموقع للغة العربية
+st.markdown("""
+<style>
+    * {
+        direction: rtl;
+        text-align: right;
+    }
+</style>
+""", unsafe_allow_html=True)
 
 # 2. العنوان الرئيسي والنبذة
 st.title("أهلاً بكم في معرض أعمالي 🎨")
