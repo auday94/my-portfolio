@@ -1,46 +1,54 @@
 import streamlit as st
+import json
 
-# 1. إعدادات الصفحة الأساسية
-st.set_page_config(page_title="معرض أعمالي", page_icon="🎨", layout="centered")
-# كود سحري لضبط اتجاه الموقع للغة العربية
+# 1. إعدادات الصفحة
+st.set_page_config(page_title="معرض أعمالي الاحترافي", page_icon="🎨", layout="wide")
+
+# 2. كود تنسيق اللغة العربية (RTL) والألوان
 st.markdown("""
 <style>
     * {
         direction: rtl;
         text-align: right;
     }
+    .stMainContainer {
+        background-color: #0e1117;
+    }
 </style>
 """, unsafe_allow_html=True)
 
-# 2. العنوان الرئيسي والنبذة
-st.title("أهلاً بكم في معرض أعمالي 🎨")
-st.subheader("مصمم جرافيك محترف | خبرة 5 سنوات")
+# 3. قراءة البيانات من ملف JSON
+try:
+    with open('data.json', 'r', encoding='utf-8') as f:
+        projects = json.load(f)
+except FileNotFoundError:
+    projects = [] # في حال لم يجد الملف لا يتوقف الموقع
 
-st.write("""
-أنا متخصص في إخراج تصاميم بصرية جذابة واحترافية. 
-أدمج بين الفن والتقنية لإنشاء هويات بصرية، وتصاميم سوشيال ميديا مدروسة تسويقياً، 
-باستخدام أدوات مثل Photoshop، Illustrator، InDesign، بالإضافة لمونتاج الفيديو الاحترافي على Premiere Pro.
-""")
-
-st.divider() # خط فاصل أنيق
-
-# 3. قسم معرض الأعمال (مقسم لعمودين)
-st.header("أحدث المشاريع")
-col1, col2 = st.columns(2)
-
-with col1:
-    st.info("📱 تصاميم السوشيال ميديا")
-    st.write("حملات إعلانية متكاملة مصممة خصيصاً لجذب الانتباه وزيادة التفاعل.")
-    # هذا هو السطر الجديد لعرض الصورة:
-    st.image("design1.jpg", caption="تصميم سوشيال ميديا", use_container_width=True)
-
-with col2:
-    st.info("🎬 مونتاج وتحرير الفيديو")
-    st.write("مقاطع ريلز وفيديوهات ترويجية قصيرة وجذابة.")
-    # st.video("promo_video.mp4") # رح نفعل هاد السطر لاحقاً لعرض فيديوهاتك
-
+# 4. العنوان الرئيسي
+st.title("أهلاً بكم في معرض أعمالي 🚀")
+st.subheader("مصمم جرافيك ومسوق رقمي | خبرة 5 سنوات")
+st.write("هنا أعرض لكم خلاصة تجاربي في التصميم والمونتاج وإدارة الحملات الإعلانية.")
 st.divider()
 
-# 4. قسم التواصل
-st.success("✉️ هل لديك مشروع رائع في ذهنك؟ دعنا نتحدث!")
-st.write("**البريد الإلكتروني:** contact@example.com")
+# 5. عرض المشاريع تلقائياً من الملف
+if not projects:
+    st.warning("جاري تجهيز المشاريع... تأكد من وجود ملف data.json")
+else:
+    for project in projects:
+        with st.container():
+            # تقسيم العرض لعمودين (واحد للصورة وواحد للنص)
+            col1, col2 = st.columns([1, 2])
+            
+            with col1:
+                # عرض الصورة المذكورة في ملف الـ JSON
+                st.image(project['image'], use_container_width=True)
+            
+            with col2:
+                st.header(project['title'])
+                st.write(project['description'])
+                st.info(f"التصنيف: {project['type']}")
+                
+            st.divider()
+
+# 6. تذييل الصفحة (Footer)
+st.success("✉️ للتواصل والتعاون العملي، يمكنكم مراسلتي مباشرة.")
