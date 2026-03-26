@@ -22,7 +22,8 @@ col1, col2 = st.columns(2)
 with col1:
     st.info("📱 تصاميم السوشيال ميديا")
     st.write("حملات إعلانية متكاملة مصممة خصيصاً لجذب الانتباه وزيادة التفاعل.")
-    # st.image("social_media_design.jpg") # رح نفعل هاد السطر لاحقاً لعرض صورك
+    # هذا هو السطر الجديد لعرض الصورة:
+    st.image("design1.jpg", caption="تصميم سوشيال ميديا", use_container_width=True)
 
 with col2:
     st.info("🎬 مونتاج وتحرير الفيديو")
